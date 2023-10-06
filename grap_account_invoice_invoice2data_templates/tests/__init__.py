@@ -1,4 +1,5 @@
 from . import test_module
+
 from . import test_route_des_comptoirs
 
 from . import test_all_templates
@@ -25,6 +26,7 @@ from . import test_herbiolys
 from . import test_jean_herve
 from . import test_compagnie_du_riz
 from . import test_markal
+
 from . import test_papilles_sauvages
 from . import test_pural
 from . import test_relais_local
