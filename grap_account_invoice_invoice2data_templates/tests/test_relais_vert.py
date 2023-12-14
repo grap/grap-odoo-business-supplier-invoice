@@ -78,3 +78,30 @@ class TestRelaisVert(TestModule):
                 }
             ],
         )
+
+    def test_relais_vert_04(self):
+        self._test_supplier_template(
+            "relais-vert__2023-12-11__LUC__FC11890790.pdf",
+            line_qty=76,
+            expected_values={
+                "issuer": "Relais Vert",
+                "date": datetime(day=11, month=12, year=2023),
+                "invoice_number": "FC11890790",
+                "amount_untaxed": 1825.81,
+                "amount": 1945.11,
+                # "amount_extra_parafiscal_tax_interfel_200": 1.11,
+            },
+            expected_lines=[
+                {
+                    "product_code": "42491",
+                    "product_name": "SUCRE DE CANNE ROUX SEMOULE (5KG) PHILIA",
+                    "vat_code": "1",
+                    "quantity": 1.0,
+                    "price_unit": 12.11,
+                    "price_subtotal": 12.11,
+                }
+            ],
+        )
+
+
+# Montant TPF HT[\n]+.*(\d+\.\d+) €?\n

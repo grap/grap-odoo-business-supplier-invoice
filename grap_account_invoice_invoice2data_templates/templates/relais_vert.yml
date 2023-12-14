@@ -11,18 +11,18 @@ fields:
   amount:
     parser: regex
     type: float
-    regex: Montant Total TTC\s+   ([\d\s?]+\.\d+)
+    regex: Montant Total TTC\s+([\d\s?]+\.\d+)
   amount_untaxed:
     parser: regex
     type: float
-    regex: Montant Total HT\s+   ([\d\s?]+\.\d+)
+    regex: Montant Total HT\s+([\d\s?]+\.\d+)
   invoice_number:
     parser: regex
-    regex: FACTURE\s+       (FC\d+)
+    regex: FACTURE\s+(FC\d+)
   date:
     parser: regex
     type: date
-    regex: DATE\s+          (\d{2}/\d{2}/\d{4})
+    regex: Date\s+:\s+(\d{2}/\d{2}/\d{4})
   vat_code_055:
     parser: static
     value: "1"
