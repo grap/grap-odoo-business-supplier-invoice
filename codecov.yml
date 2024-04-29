@@ -1,0 +1,2 @@
+ignore:
+  - "migrations/**/*.py"         # glob accepted
