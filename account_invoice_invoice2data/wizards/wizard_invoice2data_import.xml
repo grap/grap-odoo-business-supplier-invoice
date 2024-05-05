@@ -70,7 +70,7 @@
                             <li>If not, please provide (if not already done) the VAT number of your supplier so that the IT department can perhaps develop the invoice analysis for this supplier.</li>
                         </ul>
                     </div>
-                    <field name="partner_vat" attrs="{'required': [('state', '=', 'import_failed')]}"/>
+                    <field name="partner_sanitized_vat" attrs="{'required': [('state', '=', 'import_failed')]}"/>
                 </group>
 
                 <group>

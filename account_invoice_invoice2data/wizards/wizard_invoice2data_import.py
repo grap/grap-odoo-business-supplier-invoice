@@ -52,8 +52,8 @@ class WizardInvoice2dataImport(models.TransientModel):
         readonly=True,
     )
 
-    partner_vat = fields.Char(
-        string="Supplier Vat Number", related="partner_id.vat", readonly=False
+    partner_sanitized_vat = fields.Char(
+        string="Supplier Vat Number", related="partner_id.sanitized_vat", readonly=False
     )
 
     currency_id = fields.Many2one(

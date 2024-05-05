@@ -46,6 +46,9 @@ class TestAccountInvoice2dataTemplate(TestModule):
         self.partner_relais_vert.vat = "FR72352867493"
         self.assertEqual(self.invoice_relais_vert.invoice2data_state, "available")
 
+        self.partner_relais_vert.vat = "fR 72 35 28 67 49 3"
+        self.assertEqual(self.invoice_relais_vert.invoice2data_state, "available")
+
         self.partner_relais_vert.vat = "XX123456789"
         self.assertEqual(self.invoice_relais_vert.invoice2data_state, "not_found")
 

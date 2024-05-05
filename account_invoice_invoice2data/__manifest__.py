@@ -15,6 +15,7 @@
         "account_invoice_recompute_tax",
         "account_invoice_supplier_ref_unique",
         "account_invoice_triple_discount",
+        "base_vat_sanitized",
         "purchase_discount",
         "purchase_triple_discount",
         "web_notify",

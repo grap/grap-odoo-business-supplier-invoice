@@ -695,7 +695,7 @@ msgstr "Nom du fournisseur différent"
 
 #. module: account_invoice_invoice2data
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_account_invoice2data_template__vat
-#: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import__partner_vat
+#: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import__partner_sanitized_vat
 msgid "Supplier Vat Number"
 msgstr "Numéro TVA du fournisseur"
 
@@ -757,7 +757,7 @@ msgid "The PDF file %s has been attached to the current invoice."
 msgstr "Le fichier PDF %s a été reliée à la facture en cours."
 
 #. module: account_invoice_invoice2data
-#: model:ir.model.fields,help:account_invoice_invoice2data.field_wizard_invoice2data_import__partner_vat
+#: model:ir.model.fields,help:account_invoice_invoice2data.field_wizard_invoice2data_import__partner_sanitized_vat
 msgid "The Tax Identification Number. Complete it if the contact is subjected to government taxes. Used in some legal statements."
 msgstr "Le numéro d'identification fiscale. Complétez-le si le contact est soumis aux taxes gouvernementales. Utilisé dans certaines déclarations juridiques."
 
