@@ -34,7 +34,7 @@ fields:
     parser: lines
     start: DESCRIPTION
     end: Total TTC
-    line: ^(?P<product_name>.*) +(?P<quantity>\d+\.\d+) +(?P<ignored_uom_name>[\wéè]+) +(?P<price_unit>\d+\.\d+) +€ +(?P<vat_code>\d+ %) +(?P<price_subtotal>\d+\.\d+)
+    line: ^(?P<product_name>.*) +(?P<quantity>\d+(\.\d+)?) +(?P<ignored_uom_name>[\wéè]+) +(?P<price_unit>\d+\.\d+) +€ +(?P<vat_code>\d+ %) +(?P<price_subtotal>\d+\.\d+)
     types:
       quantity: float
       price_unit: float
@@ -43,7 +43,7 @@ fields:
 options:
   currency: EUR
   date_formats:
-    - '%d/%m/%y'
+    - '%d/%m/%Y'
   decimal_separator: '.'
   replace:
     # Standardize the decimal separator. ('1,24' -> '1.24')
