@@ -81,6 +81,8 @@ class WizardInvoice2dataImportStateApply(models.TransientModel):
             invoice_vals.update({"date_due": self.pdf_date_due})
 
         self.invoice_id.write(invoice_vals)
+        if not self.pdf_date_due:
+            self.invoice_id._onchange_payment_term_date_invoice()
 
         self.invoice_id.button_reset_tax_line_ids()
 
