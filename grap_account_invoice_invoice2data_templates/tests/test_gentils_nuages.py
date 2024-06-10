@@ -7,7 +7,7 @@ from .test_module import TestModule
 
 
 class TestGentilsNuages(TestModule):
-    def test_gentils_nuages(self):
+    def test_gentils_nuages_01(self):
         self._test_supplier_template(
             "gentils-nuages__2024-04-15__INT__2324-032.pdf",
             line_qty=1,
@@ -27,6 +27,30 @@ class TestGentilsNuages(TestModule):
                     "price_unit": 10.0,
                     "discount": 0.0,
                     "price_subtotal": 6.66,
+                }
+            ],
+        )
+
+    def test_gentils_nuages_02(self):
+        self._test_supplier_template(
+            "gentils-nuages__2024-05-01__INT__2324-039.pdf",
+            line_qty=1,
+            expected_values={
+                "issuer": "Gentils Nuages",
+                "date": datetime(day=1, month=5, year=2024),
+                "date_due": datetime(day=8, month=5, year=2024),
+                "invoice_number": "2324-039",
+                "amount_untaxed": 10.00,
+                "amount": 12.00,
+            },
+            expected_lines=[
+                {
+                    "product_name": "Hébergement mail",
+                    "vat_code": "20 %",
+                    "quantity": 1.000,
+                    "price_unit": 10.0,
+                    "discount": 0.0,
+                    "price_subtotal": 10.00,
                 }
             ],
         )
