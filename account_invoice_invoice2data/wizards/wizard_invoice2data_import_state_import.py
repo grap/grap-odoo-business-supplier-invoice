@@ -98,7 +98,7 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
         self.ensure_one()
         if (
             self.pdf_vat
-            and not self.partner_id.vat
+            and not self.partner_id.sanitized_vat
             and not self.supplier_name_different
         ):
             self.env.user.notify_info(
