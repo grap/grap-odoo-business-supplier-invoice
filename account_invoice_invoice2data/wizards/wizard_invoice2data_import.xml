@@ -16,6 +16,14 @@
                     <field name="state" widget="statusbar" statusbar_visible="import,product_mapping,line_differences"/>
                 </header>
                     <div class="alert alert-warning" role="alert"
+                        attrs="{'invisible': [('import_state', '!=', 'non_draft_invoice')]}">
+                        You can not run this wizard on a non draft invoice.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                        attrs="{'invisible': [('import_state', '!=', 'non_supplier_invoice')]}">
+                        You can only run this wizard on a supplier invoice or a supplier refund.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
                         attrs="{'invisible': [('fuzzy_message_amount_untaxed_difference', '=', False)]}">
                         <field name="fuzzy_message_amount_untaxed_difference"/>
                     </div>
@@ -36,6 +44,7 @@
                     <field name="invoice_filename" force_save="1" states="import"/>
                     <field name="pdf_invoice_number"
                         attrs="{'invisible': [('pdf_invoice_number', '=', False)]}"/>
+                    <field name="import_state" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
                     <field name="to_delete_invoice_line_qty" invisible="1"/>
                     <field name="pdf_has_product_code" invisible="1"/>
@@ -217,14 +226,16 @@
                             </field>
                         </page>
                     </notebook>
-
-
                 </group>
                 <footer>
-                    <button name="import_invoice" type="object" class="btn-primary" string="Import" states="import"/>
-                    <button name="action_close" type="object" class="btn-primary" string="Enter VAT" states="import_failed"/>
-                    <button name="map_products" type="object" class="btn-primary" string="Map Products" states="product_mapping"/>
-                    <button name="apply_changes" type="object" class="btn-primary" string="Apply Changes" states="line_differences"/>
+                    <button name="import_invoice" type="object" class="btn-primary" string="Import"
+                        attrs="{'invisible': ['|', ('state', '!=', 'import'), ('import_state', '!=', 'possible')]}"/>
+                    <button name="action_close" type="object" class="btn-primary" string="Enter VAT"
+                        attrs="{'invisible': ['|', ('state', '!=', 'import_failed'), ('import_state', '!=', 'possible')]}"/>
+                    <button name="map_products" type="object" class="btn-primary" string="Map Products"
+                        attrs="{'invisible': ['|', ('state', '!=', 'product_mapping'), ('import_state', '!=', 'possible')]}"/>
+                    <button name="apply_changes" type="object" class="btn-primary" string="Apply Changes"
+                        attrs="{'invisible': ['|', ('state', '!=', 'line_differences'), ('import_state', '!=', 'possible')]}"/>
                 </footer>
             </form>
         </field>

@@ -9,7 +9,6 @@
 import jaro
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare
 from odoo.tools.misc import formatLang
 
@@ -24,6 +23,15 @@ class WizardInvoice2dataImport(models.TransientModel):
     invoice_file = fields.Binary(string="PDF Invoice", required=True)
 
     invoice_filename = fields.Char(string="Filename", readonly=True)
+
+    import_state = fields.Selection(
+        selection=[
+            ("possible", "Possible"),
+            ("non_supplier_invoice", "Non Supplier Invoice"),
+            ("non_draft_invoice", "Non Draft Invoice"),
+        ],
+        compute="_compute_import_state",
+    )
 
     state = fields.Selection(
         selection=[
@@ -158,16 +166,15 @@ class WizardInvoice2dataImport(models.TransientModel):
         compute="_compute_message_vat_difference",
     )
 
-    @api.model
-    def create(self, vals):
-        wizard = super().create(vals)
-        wizard._check_invoice_state()
-        return wizard
-
-    def _check_invoice_state(self):
-        self.ensure_one()
-        if self.invoice_id.state != "draft":
-            raise UserError(_("You can not run this wizard on a non draft invoice"))
+    @api.depends("invoice_id.state", "invoice_id.type")
+    def _compute_import_state(self):
+        for wizard in self:
+            if wizard.invoice_id.type not in ["in_invoice", "in_refund"]:
+                wizard.import_state = "non_supplier_invoice"
+            elif wizard.invoice_id.state != "draft":
+                wizard.import_state = "non_draft_invoice"
+            else:
+                wizard.import_state = "possible"
 
     @api.depends("line_ids.changes_type")
     def _compute_invoice_difference_line_qty(self):
