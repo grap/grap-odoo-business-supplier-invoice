@@ -257,12 +257,7 @@ class WizardInvoice2dataImport(models.TransientModel):
     @api.depends("pdf_issuer", "partner_id.name", "pdf_vat")
     def _compute_supplier_name_different(self):
         for wizard in self:
-            # We only check if the name is different if a vat number
-            # is present as a static value, in the template file
-            # If not present, it can be a generic template file, used
-            # for many suppliers. It's the case in a multicompany context
-            # to import sale invoices. (intercompany invoices)
-            if wizard.pdf_issuer and wizard.pdf_vat:
+            if wizard.pdf_issuer:
                 wizard.supplier_name_different = (
                     jaro.jaro_winkler_metric(
                         wizard.pdf_issuer.lower(), wizard.partner_id.name.lower()
