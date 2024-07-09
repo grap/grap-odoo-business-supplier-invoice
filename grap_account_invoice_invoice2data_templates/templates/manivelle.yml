@@ -1,0 +1,53 @@
+issuer: La Manivelle (Brasserie Artisanale De Die)
+
+keywords:
+  - "FR57532250461"
+
+fields:
+  vat:
+    parser: static
+    value: "FR57532250461"
+  amount:
+    parser: regex
+    type: float
+    regex: Total TTC +(\d+\.\d+)
+  amount_untaxed:
+    parser: regex
+    type: float
+    regex: Total HT +(\d+\.\d+)
+  invoice_number:
+    parser: regex
+    regex: N° Facture.*\s(FA\d+)
+  date:
+    parser: regex
+    type: date
+    regex: Date.*(\d{2}\/\d{2}\/\d{4})
+  date_due:
+    parser: regex
+    type: date
+    regex: Ech.*\s.*(\d{2}\/\d{2}\/\d{4})
+  vat_code_200:
+    parser: static
+    value: "20.00%"
+  lines:
+    parser: lines
+    start: Désignation
+    end: Total TTC
+    line: ^(?P<product_name>.*)  +(?P<quantity>\d+(\.\d+)?) +(?P<price_unit>\d+\.\d+) € +(?P<vat_code>20\.00%) +(?P<price_subtotal>\d+\.\d+)
+    types:
+      quantity: float
+      price_unit: float
+      price_subtotal: float
+
+options:
+  currency: EUR
+  date_formats:
+    - '%d/%m/%Y'
+  decimal_separator: '.'
+  replace:
+    # Standardize the decimal separator. ('1,24' -> '1.24')
+    - [',', '.']
+    # Remove the thousands separator. ('1 234.56' -> '1234.56')
+    - ['(\d+) (\d{3}\.\d{2})', '\g<1>\g<2>']
+    # Remove 'Carton de' and many spaces before
+    - [' +Carton de ', ' ']

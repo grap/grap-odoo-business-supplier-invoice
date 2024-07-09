@@ -25,6 +25,7 @@ from . import test_gravier
 from . import test_helpac
 from . import test_herbiolys
 from . import test_jean_herve
+from . import test_manivelle
 from . import test_markal
 from . import test_papilles_sauvages
 from . import test_paume_de_pain
