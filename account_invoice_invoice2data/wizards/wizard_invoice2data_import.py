@@ -82,6 +82,11 @@ class WizardInvoice2dataImport(models.TransientModel):
         readonly=True,
     )
 
+    invoice2data_template_id = fields.Many2one(
+        comodel_name="account.invoice2data.template",
+        help="Invoice2data template Used to analyse the supplier invoice",
+    )
+
     pdf_amount = fields.Monetary(currency_field="currency_id", readonly=True)
 
     line_ids = fields.One2many(
