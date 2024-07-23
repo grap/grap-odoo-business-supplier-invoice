@@ -31,3 +31,28 @@ class TestRelaisVert(TestModule):
                 }
             ],
         )
+
+    def test_relais_vert_2_02(self):
+        self._test_supplier_template(
+            "relais-vert__2024-07-16__BSG__FC12014853.pdf",
+            line_qty=88,
+            expected_values={
+                "issuer": "Relais Vert",
+                "version": 2,
+                "date": datetime(day=16, month=7, year=2024),
+                "invoice_number": "FC12014853",
+                "amount_untaxed": 3318.56,
+                "amount": 3507.16,
+                "amount_extra_parafiscal_tax_interfel_200": 3.20,
+            },
+            expected_lines=[
+                {
+                    "product_code": "28444",
+                    "product_name": "LEVURE MALTEE PAILLETTE (3KG) MARKAL",
+                    "vat_code": "1",
+                    "quantity": 3.0,
+                    "price_unit": 34.51,
+                    "price_subtotal": 103.53,
+                }
+            ],
+        )
