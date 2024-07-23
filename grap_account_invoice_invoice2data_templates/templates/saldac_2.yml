@@ -5,9 +5,12 @@ keywords:
   # - 44206081000011
   # - 44206081000029
   - "FR91442060810"
-  - "Montant HT +TVA"
+  - "Montant HT +Tx TVA"
 
 fields:
+  version:
+    parser: static
+    value: 2
   vat:
     parser: static
     value: "FR91442060810"
@@ -21,26 +24,27 @@ fields:
     regex: Total HT\s+(\d+\.\d+)
   invoice_number:
     parser: regex
-    regex: Facture N°.*\s+(FA\d+\/\d+)
+    regex: Facture N°.*\s+(FA[\w+|\/]+)
   date:
     parser: regex
     type: date
-    regex: FA\d+\/\d+\s+(\d{2}\/\d{2}\/\d{4})
+    regex: Facture N°.*\s+FA[\w+|\/]+ +(\d{2}\/\d{2}\/\d{2})
   date_due:
     parser: regex
     type: date
-    regex: FA\d+\/\d+\s+\d{2}\/\d{2}\/\d{4}.*(\d{2}\/\d{2}\/\d{4})
+    regex: \d{2}\/\d{2}\/\d{2}.*(\d{2}\/\d{2}\/\d{4})
   vat_code_055:
     parser: static
-    value: "2"
+    value: "5.5"
   vat_code_200:
     parser: static
-    value: "4"
+    value: "20.0"
   lines:
     parser: lines
-    start: Référence.*TVA
-    end: Code\s+Base HT
-    line: ^ *(?P<product_code>\w+) *(?P<product_name>.*)\s+(?P<quantity>\d+)\s+(?P<price_unit>\d+\.\d+)\s+(?P<price_subtotal>\d+\.\d+)\s+(?P<vat_code>2|4)
+    start: Réf.*TVA
+    end: Code +Base
+    # Note: Dans 'P.U net HT', il y a le prix brut. Tout va bien
+    line: ^ *(?P<product_code>\w+) *(?P<product_name>.*) +(?P<quantity>\d+) +((?P<discount>\d+(\.\d+)?)%)? +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+) +(?P<vat_code>\d+\.\d+)
     types:
       quantity: float
       price_unit: float
@@ -51,6 +55,7 @@ options:
   currency: EUR
   date_formats:
     - '%d/%m/%Y'
+    - '%d/%m/%y'
   decimal_separator: '.'
   replace:
     # Standardize the decimal separator. ('1,24' -> '1.24')

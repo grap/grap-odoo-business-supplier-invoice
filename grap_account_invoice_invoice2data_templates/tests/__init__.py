@@ -37,7 +37,7 @@ from . import test_scop_epice_2
 from . import test_senfas
 from . import test_supersec
 from . import test_route_des_comptoirs
-from . import test_saldac
+from . import test_saldac, test_saldac_2
 from . import test_t_air_de_famille
 from . import test_thera_viva
 from . import test_vitafrais
