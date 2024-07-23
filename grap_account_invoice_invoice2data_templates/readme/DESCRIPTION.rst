@@ -31,6 +31,7 @@ This module contains invoice2data templates for GRAP company.
 - Relais Local
 - Relais Vert
 - Route des comptoirs
+- Salaisons de Chartreuse
 - Saldac
 - Scop Epice
 - Senfas
