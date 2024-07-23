@@ -34,6 +34,32 @@ class TestRelaisVert(TestModule):
 
     def test_relais_vert_2_02(self):
         self._test_supplier_template(
+            "relais-vert__2024-07-15__BES__FC12014253.pdf",
+            line_qty=27,
+            expected_values={
+                "issuer": "Relais Vert",
+                "version": 2,
+                "date": datetime(day=15, month=7, year=2024),
+                "invoice_number": "FC12014253",
+                "amount_untaxed": 512.92,
+                "amount": 543.76,
+                "amount_extra_parafiscal_tax_interfel_200": 0.11,
+                "amount_extra_shipping_costs_200": 16.0,
+            },
+            expected_lines=[
+                {
+                    "product_code": "13131",
+                    "product_name": "PARMESAN REGGIANO DOP 20 MOIS VRAC LAIT",
+                    "vat_code": "1",
+                    "quantity": 1.696,
+                    "price_unit": 23.66,
+                    "price_subtotal": 40.13,
+                }
+            ],
+        )
+
+    def test_relais_vert_2_03(self):
+        self._test_supplier_template(
             "relais-vert__2024-07-16__BSG__FC12014853.pdf",
             line_qty=88,
             expected_values={

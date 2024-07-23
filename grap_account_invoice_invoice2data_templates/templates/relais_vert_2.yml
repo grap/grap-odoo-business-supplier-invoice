@@ -37,6 +37,12 @@ fields:
     parser: regex
     type: float
     regex: Montant TPF HT\n+.*(\d+\.\d+) €\n
+  # On considère que les frais de port (facultatif) sont
+  # des frais de moins de 100€, et qu'une facture fait plus de 100€
+  amount_extra_shipping_costs_200:
+    parser: regex
+    type: float
+    regex: Frais de port.*\n+.* {3}(\d{1,2}\.\d+) € {3}
   lines:
     parser: lines
     start: Adresse de Facturation
