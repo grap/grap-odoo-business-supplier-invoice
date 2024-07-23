@@ -30,7 +30,9 @@ fields:
     parser: lines
     start: Référence +Désignation.*Cd
     end: Pénalités de retard
-    line: ^(?P<product_code>\w+) +(?P<product_name>.{50}) +(?P<quantity>\d+) +(U|C(?P<quantity2>\d+)) +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+) +(?P<vat_code>1)
+    # Note if discount is not defined, price_unit field
+    # is in the 'PU HT Brut' Column
+    line: ^(?P<product_code>[\w|+]+) +(?P<product_name>.{50}) +(?P<quantity>\d+) +(U|C(?P<quantity2>\d+))( +(?P<brut_price_unit>\d+\.\d+) +(?P<discount_name>\d+\.\d+))? +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+) +(?P<vat_code>1)
     types:
       quantity: float
       quantity2: float
