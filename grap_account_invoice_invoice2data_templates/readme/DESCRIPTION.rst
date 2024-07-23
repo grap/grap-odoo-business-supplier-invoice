@@ -26,7 +26,6 @@ This module contains invoice2data templates for GRAP company.
 - Jean Hervé
 - Markal
 - Papilles Sauvages
-- Paume de Pain
 - Pural
 - Relais Local
 - Relais Vert
