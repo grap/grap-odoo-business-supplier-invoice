@@ -17,6 +17,7 @@ This module contains invoice2data templates for GRAP company.
 - Ecodis
 - Ekibio
 - Ferme Bio Margerie
+- Ferme Bouteille (GAEC)
 - Ferme des Grands Noyers
 - Gentils Nuages
 - Gonuts

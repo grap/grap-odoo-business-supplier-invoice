@@ -1,0 +1,56 @@
+issuer: Ferme Bouteille (GAEC)
+
+keywords:
+  # Weird: The invoice doesn't looks to contain the correct
+  # VAT Number
+  - "fr92853795805|fr95853795805"
+
+fields:
+  vat:
+    parser: static
+    value: "FR92853795805"
+  amount:
+    parser: regex
+    type: float
+    regex: Total TTC +(\d+\.\d+)
+  amount_untaxed:
+    parser: regex
+    type: float
+    regex: Total HT +(\d+\.\d+)
+  invoice_number:
+    parser: regex
+    regex: Facture +([\w|-]+)
+  date:
+    parser: regex
+    type: date
+    regex: facturation.*(\d{2}\/\d{2}\/\d{4})
+  date_due:
+    parser: regex
+    type: date
+    regex: échéance.*(\d{2}\/\d{2}\/\d{4})
+  vat_code_055:
+    parser: static
+    value: "5.5"
+  vat_code_200:
+    parser: static
+    value: "20.0"
+  lines:
+    parser: lines
+    start: Désignation
+    end:  Conditions de règlement
+    line: ^ +(?P<product_code>(\w|-|\.)+) - (?P<product_name>.*) +(?P<vat_code>(\d+.\d+))% +(?P<price_unit>\d+\.\d+) +(?P<quantity>\d+(\.\d+)?) +(?P<price_subtotal>\d+\.\d+)
+    types:
+      quantity: float
+      price_unit: float
+      price_subtotal: float
+
+options:
+  currency: EUR
+  date_formats:
+    - '%d/%m/%Y'
+  decimal_separator: '.'
+  replace:
+    # Standardize the decimal separator. ('1,24' -> '1.24')
+    - [',', '.']
+    # Remove the thousands separator. ('1 234.56' -> '1234.56')
+    - ['(\d+) (\d{3}\.\d{2})', '\g<1>\g<2>']
