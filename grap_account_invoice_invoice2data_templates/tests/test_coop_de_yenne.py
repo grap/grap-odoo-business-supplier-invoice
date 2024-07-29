@@ -12,7 +12,7 @@ class TestCoopDeYenne(TestModule):
             "coop-de-yenne__2023-01-09__ECS__30101035.pdf",
             line_qty=2,
             expected_values={
-                "issuer": "Coop de Yenne",
+                "issuer": "Coop Laitière de Yenne (La Dent du Chat)",
                 "date": datetime(day=9, month=1, year=2023),
                 "date_due": datetime(day=10, month=2, year=2023),
                 "invoice_number": "30101035",
@@ -37,7 +37,7 @@ class TestCoopDeYenne(TestModule):
             "coop-de-yenne__2023-02-28__ACR__30202038.pdf",
             line_qty=5,
             expected_values={
-                "issuer": "Coop de Yenne",
+                "issuer": "Coop Laitière de Yenne (La Dent du Chat)",
                 "date": datetime(day=28, month=2, year=2023),
                 "date_due": datetime(day=31, month=3, year=2023),
                 "invoice_number": "30202038",
@@ -62,7 +62,7 @@ class TestCoopDeYenne(TestModule):
             "coop-de-yenne__2023-11-13__HAL__31101277.pdf",
             line_qty=4,
             expected_values={
-                "issuer": "Coop de Yenne",
+                "issuer": "Coop Laitière de Yenne (La Dent du Chat)",
                 "date": datetime(day=13, month=11, year=2023),
                 "date_due": datetime(day=20, month=12, year=2023),
                 "invoice_number": "31101277",
