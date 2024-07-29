@@ -449,7 +449,7 @@ class WizardInvoice2dataImportLine(models.TransientModel):
                         " with the supplier %s.\n"
                         " Please update manually the information on the product form view."
                     )
-                    % (line.product_id.complete_name, line.wizard_id.partner_id.name)
+                    % (line.product_id.display_name, line.wizard_id.partner_id.name)
                 )
             line.is_product_mapped = True
 
