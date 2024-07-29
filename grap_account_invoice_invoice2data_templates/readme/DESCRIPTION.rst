@@ -38,4 +38,5 @@ This module contains invoice2data templates for GRAP company.
 - Supersec
 - T'air de Famille
 - Thera Viva
+- Union Fruitières Bio-Comtoises (UFBC)
 - Vitafrais

@@ -41,4 +41,5 @@ from . import test_route_des_comptoirs
 from . import test_saldac
 from . import test_t_air_de_famille
 from . import test_thera_viva
+from . import test_union_des_fruitieres_bio_comtoises
 from . import test_vitafrais
