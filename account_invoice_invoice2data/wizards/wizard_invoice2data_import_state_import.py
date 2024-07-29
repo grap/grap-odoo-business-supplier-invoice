@@ -25,7 +25,11 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
 
     def import_invoice(self):
         self.ensure_one()
-        result = self._extract_json_from_pdf()
+        try:
+            result = self._extract_json_from_pdf()
+        except ValueError as e:
+            self._send_mail_import_errored(e)
+            return self._get_action_from_state("import_errored")
         if not result:
             return self._get_action_from_state("import_failed")
         self._initialize_wizard_invoice(result)
@@ -130,3 +134,40 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
                 )
                 % (self.fuzzy_message_amount_untaxed_difference)
             )
+
+    def _send_mail_import_errored(self, error):
+
+        self.ensure_one()
+
+        it_team_email = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("account_invoice_invoice2data.it_team_email")
+        )
+
+        template = self.env.ref(
+            "account_invoice_invoice2data.mail_template_import_errored"
+        )
+
+        attachment = (
+            self.env["ir.attachment"]
+            .sudo()
+            .create(
+                {
+                    "name": "Temporary Import File",
+                    "datas_fname": "import_wizard_{}.pdf".format(self.id),
+                    "type": "binary",
+                    "mimetype": "application/x-pdf",
+                    "db_datas": self.invoice_file,
+                    "res_model": "wizard.invoice2data.import",
+                    "res_id": self.id,
+                }
+            )
+        )
+
+        template.attachment_ids = [(4, attachment.id)]
+        template.with_context(
+            it_team_email=it_team_email,
+            error_message=str(error),
+        ).send_mail(self.id, force_send=True)
+        template.attachment_ids = [(5, 0, 0)]

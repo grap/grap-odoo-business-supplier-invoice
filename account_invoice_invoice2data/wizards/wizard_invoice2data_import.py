@@ -36,6 +36,9 @@ class WizardInvoice2dataImport(models.TransientModel):
     state = fields.Selection(
         selection=[
             ("import", "Import"),
+            # Import failed. something is wrong
+            ("import_errored", "Import Errored"),
+            # No import available
             ("import_failed", "Import Failed"),
             ("product_mapping", "Products Mapping"),
             ("line_differences", "Invoice Lines Differences"),

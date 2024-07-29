@@ -53,11 +53,6 @@ class TestFullWorkflow(TestModule):
             [("vat", "=", "FR72352867493")]
         )[0]
 
-    def _get_attachments(self, invoice):
-        return self.env["ir.attachment"].search(
-            [("res_model", "=", "account.invoice"), ("res_id", "=", invoice.id)]
-        )
-
     def _get_supplierinfos(self, product):
         return self.env["product.supplierinfo"].search(
             [
