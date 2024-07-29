@@ -13,7 +13,6 @@ class WizardInvoice2dataImportStateApply(models.TransientModel):
 
     def apply_changes(self):
         self.ensure_one()
-        self._check_invoice_state()
         self._apply_write_invoice()
         self._apply_attach_file()
         self._check_totals()

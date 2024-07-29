@@ -4,8 +4,6 @@
 import base64
 from datetime import datetime
 
-from odoo.exceptions import UserError
-
 from .test_module import TestModule
 
 
@@ -87,6 +85,7 @@ class TestFullWorkflow(TestModule):
             }
         )
         self.assertEqual(wizard.state, "import")
+        self.assertEqual(wizard.import_state, "possible")
 
         wizard.import_invoice()
 
@@ -254,12 +253,13 @@ class TestFullWorkflow(TestModule):
         # Part 6 : rerun the wizard with confirmed invoice
         # ################################################
         self.invoice_relais_vert.action_invoice_open()
-        with self.assertRaises(UserError):
-            wizard = self.Wizard.create(
-                {
-                    "invoice_file": self.base64_data,
-                    "invoice_filename": self.invoice_name,
-                    "partner_id": self.partner_relais_vert.id,
-                    "invoice_id": self.invoice_relais_vert.id,
-                }
-            )
+        wizard = self.Wizard.create(
+            {
+                "invoice_file": self.base64_data,
+                "invoice_filename": self.invoice_name,
+                "partner_id": self.partner_relais_vert.id,
+                "invoice_id": self.invoice_relais_vert.id,
+            }
+        )
+
+        self.assertEqual(wizard.import_state, "non_draft_invoice")
