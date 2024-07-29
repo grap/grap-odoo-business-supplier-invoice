@@ -66,10 +66,12 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
             os.close(fd)
 
         result = invoice2data.main.extract_data(tmp_file_name, templates=templates)
-
+        if result and result.get("issuer", False) and not result.get("version", False):
+            result["version"] = 1
         return result
 
     def _initialize_wizard_invoice(self, result):
+        Invoice2dataTemplate = self.env["account.invoice2data.template"]
         for invoice_field in [
             "issuer",
             "version",
@@ -85,6 +87,11 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
                 if "date" in invoice_field:
                     value = value.date()
                 setattr(self, "pdf_%s" % invoice_field, value)
+
+        template = Invoice2dataTemplate.with_context(active_test=False).search(
+            [("name", "=", result["issuer"]), ("version", "=", result["version"])]
+        )
+        self.invoice2data_template_id = template and template[0].id or False
 
     def _initialize_wizard_lines(self, pdf_data):
         self.line_ids.unlink()

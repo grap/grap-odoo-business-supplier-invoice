@@ -10,7 +10,9 @@ class AccountInvoice(models.Model):
 
     invoice2data_template_id = fields.Many2one(
         comodel_name="account.invoice2data.template",
-        help="Invoice2data template Used to analyse" " the supplier invoice",
+        readonly=True,
+        track_visibility=True,
+        help="Invoice2data template Used to analyse the supplier invoice",
     )
 
     invoice2data_state = fields.Selection(
