@@ -8,6 +8,7 @@ from . import test_agrosourcing
 from . import test_biodis
 from . import test_brasserie_pleine_lune
 from . import test_brasserie_teddy_bear
+from . import test_brasserie_stephanoise
 from . import test_cafes_dagobert
 from . import test_cds
 from . import test_compagnie_du_riz

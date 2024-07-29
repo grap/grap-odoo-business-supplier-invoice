@@ -1,0 +1,57 @@
+issuer: La Brasserie Stéphanoise
+
+keywords:
+  - "FR02802161414"
+
+fields:
+  vat:
+    parser: static
+    value: "FR02802161414"
+  amount:
+    parser: regex
+    type: float
+    regex: Net à payer +(\d+\.\d+)
+  amount_untaxed:
+    parser: regex
+    type: float
+    regex: Total HT +(\d+\.\d+)
+  invoice_number:
+    parser: regex
+    regex: FACTURE +(\d+-\d+-\d+)
+  date:
+    parser: regex
+    type: date
+    regex: (\d{2}\/\d{2}\/\d{4}) +\d{2}\/\d{2}\/\d{4}
+  date_due:
+    parser: regex
+    type: date
+    regex: \d{2}\/\d{2}\/\d{4} +(\d{2}\/\d{2}\/\d{4})
+  vat_code_200:
+    parser: static
+    value: "20.0"
+  lines:
+    parser: lines
+    start: Description +Qté
+    end: Base HT
+    line: ^ +(?P<product_name>.*) +(?P<quantity>\d+) +(?P<vat_code>(20.0)|(5.5)) +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+)
+    types:
+      quantity: float
+      price_unit: float
+      price_subtotal: float
+
+options:
+  currency: EUR
+  date_formats:
+    - '%d/%m/%Y'
+  decimal_separator: '.'
+  replace:
+    # Standardize the decimal separator. ('1,24' -> '1.24')
+    - [',', '.']
+    # remove special char
+    - ['¹', '']
+    - [' • ', ' ']
+    # Remove the thousands separator. ('1 234.56' -> '1234.56')
+    - ['(\d+) (\d{3}\.\d{2})', '\g<1>\g<2>']
+
+    # # custom: handle splitted line.
+    - ['(?P<quantity> +\d+)(?P<vat_code> +(20.0)|(5.5)) %(?P<price_unit> +\d+\.\d+)(?P<price_subtotal> +\d+\.\d+)\n(?P<extra_product_name>.*)\s+Lot', '\g<extra_product_name>\g<quantity>\g<vat_code>\g<price_unit>\g<price_subtotal>\n']
