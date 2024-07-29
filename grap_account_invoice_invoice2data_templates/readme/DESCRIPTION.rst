@@ -24,6 +24,7 @@ This module contains invoice2data templates for GRAP company.
 - Helpac
 - Herbiolys
 - Jean Hervé
+- La Manivelle (Brasserie Artisanale De Die)
 - Markal
 - Papilles Sauvages
 - Paume de Pain
