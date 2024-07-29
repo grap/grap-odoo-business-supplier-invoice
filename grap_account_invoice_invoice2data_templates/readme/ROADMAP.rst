@@ -12,6 +12,11 @@
     * Facture avec des TVA manquantes.
       (Compliqué de parser un tableau avec un champ obligatoire qui n'est pas tout le temps mis.)
 
+* Paume de Pain :
+    * Prédédemment réalisé, voir : https://github.com/grap/grap-odoo-business-supplier-invoice/pull/67
+    * Le template a changé.
+    * Facture reprenant plusieurs BL.
+
 * Pronatura :
     * Pas de code produit.
     * Certains lignes de PO génère 2 lignes de factures.

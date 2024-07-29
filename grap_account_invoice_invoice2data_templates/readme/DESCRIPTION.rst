@@ -28,7 +28,6 @@ This module contains invoice2data templates for GRAP company.
 - La Manivelle (Brasserie Artisanale De Die)
 - Markal
 - Papilles Sauvages
-- Paume de Pain
 - Pural
 - Relais Local
 - Relais Vert
