@@ -37,6 +37,9 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
         self._check_import_correct(result)
         self._update_supplier()
 
+        if self.pdf_has_bad_line_value:
+            self._send_mail_bad_line_value()
+
         # We try to save a step, if all the products are mapped
         return self.map_products()
 
@@ -136,6 +139,24 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
             )
 
     def _send_mail_import_errored(self, error):
+        self.ensure_one()
+        self._send_mail("import_errored", str(error))
+
+    def _send_mail_bad_line_value(self):
+        self.ensure_one()
+        bad_lines = self.line_ids.filtered(lambda x: x.pdf_has_bad_line_value)
+        error_list = [
+            f"- {x.pdf_product_code} - {x.pdf_product_name}"
+            f" (pdf_quantity: {x.pdf_quantity} ;"
+            f" pdf_price_unit: {x.pdf_price_unit} ;"
+            f" pdf_discount {x.pdf_discount} ;"
+            f" pdf_discount2 {x.pdf_discount2} ;"
+            f" pdf_price_subtotal {x.pdf_price_subtotal})"
+            for x in bad_lines
+        ]
+        self._send_mail("bad_line_value", "<br/>".join(error_list))
+
+    def _send_mail(self, message_type, error_message=""):
 
         self.ensure_one()
 
@@ -146,7 +167,7 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
         )
 
         template = self.env.ref(
-            "account_invoice_invoice2data.mail_template_import_errored"
+            f"account_invoice_invoice2data.mail_template_{message_type}"
         )
 
         attachment = (
@@ -168,6 +189,6 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
         template.attachment_ids = [(4, attachment.id)]
         template.with_context(
             it_team_email=it_team_email,
-            error_message=str(error),
+            error_message=error_message,
         ).send_mail(self.id, force_send=True)
         template.attachment_ids = [(5, 0, 0)]
