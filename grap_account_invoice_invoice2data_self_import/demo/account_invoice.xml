@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2023 - Today: GRAP (http://www.grap.coop)
+    @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+-->
+
+<odoo>
+
+    <record id="invoice_demo" model="account.invoice">
+        <field name="partner_id" ref="partner_demo"/>
+        <field name="account_id" ref="account_invoice_invoice2data.account_payable"/>
+        <field name="type">in_invoice</field>
+        <field name="date_invoice" eval="False"/>
+        <field name="journal_id" ref="account_invoice_invoice2data.purchase_journal"/>
+        <field name="company_id" ref="account_invoice_invoice2data.invoice2data_company"/>
+    </record>
+
+</odoo>

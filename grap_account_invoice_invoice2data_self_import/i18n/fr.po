@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * grap_account_invoice_invoice2data_self_import
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-23 22:24+0000\n"
+"PO-Revision-Date: 2024-07-23 22:24+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: grap_account_invoice_invoice2data_self_import
+#: model_terms:ir.ui.view,arch_db:grap_account_invoice_invoice2data_self_import.template_account_invoice
+msgid "<span style=\"color: white; font-size: 1px;\">#ODOOFERMENTE#</span>"
+msgstr ""
+
+#. module: grap_account_invoice_invoice2data_self_import
+#: model:product.product,name:grap_account_invoice_invoice2data_self_import.demo_product
+#: model:product.template,name:grap_account_invoice_invoice2data_self_import.demo_product_product_template
+msgid "Demo Product"
+msgstr ""
+
+#. module: grap_account_invoice_invoice2data_self_import
+#: model:ir.model,name:grap_account_invoice_invoice2data_self_import.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: grap_account_invoice_invoice2data_self_import
+#: code:addons/grap_account_invoice_invoice2data_self_import/models/account_invoice.py:36
+#, python-format
+msgid "The supplier's electronic invoice analysis is available for this supplier."
+msgstr "L'analyse de facture fournisseur est disponible pour ce fournisseur."
+
+#. module: grap_account_invoice_invoice2data_self_import
+#: code:addons/grap_account_invoice_invoice2data_self_import/models/account_invoice.py:44
+#, python-format
+msgid "The supplier's electronic invoice analysis is temporarily unavailable for this supplier."
+msgstr "L'analyse de facture fournisseur est temporairement indisponible pour ce fournisseur."
+
+#. module: grap_account_invoice_invoice2data_self_import
+#: model:product.product,uom_name:grap_account_invoice_invoice2data_self_import.demo_product
+#: model:product.product,weight_uom_name:grap_account_invoice_invoice2data_self_import.demo_product
+#: model:product.template,uom_name:grap_account_invoice_invoice2data_self_import.demo_product_product_template
+#: model:product.template,weight_uom_name:grap_account_invoice_invoice2data_self_import.demo_product_product_template
+msgid "kg"
+msgstr ""
+

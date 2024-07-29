@@ -2,6 +2,8 @@ from . import test_module
 
 from . import test_all_templates
 
+from . import test_odoo_fermente
+
 from . import test_actibio
 from . import test_agrobiodrom
 from . import test_agrosourcing
