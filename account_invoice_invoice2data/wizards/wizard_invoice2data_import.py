@@ -40,6 +40,8 @@ class WizardInvoice2dataImport(models.TransientModel):
             ("import_errored", "Import Errored"),
             # No import available
             ("import_failed", "Import Failed"),
+            # Too big amount untaxed difference
+            ("import_amount_untaxed_difference", "Amount Untaxed Difference"),
             ("product_mapping", "Products Mapping"),
             ("line_differences", "Invoice Lines Differences"),
         ],

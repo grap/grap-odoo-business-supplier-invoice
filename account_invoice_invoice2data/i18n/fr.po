@@ -30,20 +30,6 @@ msgstr "\".\n"
 "                        Êtes vous sûr·e d'avoir sélectionner le bon fichier?"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:133
-#, python-format
-msgid "%s\n"
-"\n"
-"Please send the pdf to the IT department for correction.\n"
-"\n"
-"At this time, you will need to manually verify the supplier invoice."
-msgstr "%s\n"
-"\n"
-"Veuillez envoyer la facture PDF au service informatique pour correction.\n"
-"\n"
-"Pour le moment, vous devrez vérifier manuellement la facture fournisseur."
-
-#. module: account_invoice_invoice2data
 #: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_apply.py:60
 #, python-format
 msgid "%s\n"
@@ -52,19 +38,19 @@ msgstr "%s\n"
 "[analyse PDF] La quantité %s a été mise à 0, car la ligne n'est pas présente dans le PDF."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:244
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:242
 #, python-format
 msgid "%s : %s%s -> %s%s"
 msgstr ""
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:57
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:71
 #, python-format
 msgid "%s not available."
 msgstr "%s non accessible."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:54
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:68
 #, python-format
 msgid "'invoice2data_templates_dir' not set in the odoo Config File"
 msgstr "'invoice2data_templates_dir' n'est pas paramétrer dans le fichier de configuration Odoo"
@@ -94,6 +80,7 @@ msgid "<b>Please exit the wizard, change the VAT rate for each product by openin
 msgstr "<b>Veuillez quitter l'assistant, changer le taux de TVA de chaque article en ouvrant chaque ligne de facture, puis relancer l'assistant."
 
 #. module: account_invoice_invoice2data
+#: model:mail.template,body_html:account_invoice_invoice2data.mail_template_amount_untaxed_difference
 #: model:mail.template,body_html:account_invoice_invoice2data.mail_template_bad_line_value
 #: model:mail.template,body_html:account_invoice_invoice2data.mail_template_import_errored
 msgid "<div>\n"
@@ -110,7 +97,7 @@ msgid "<div>\n"
 "                </ul>\n"
 "                <h1>Error Message</h1>\n"
 "                <code>\n"
-"                    ${ctx[\"error_message\"]}\n"
+"                    ${(ctx[\"error_message\"])|safe}\n"
 "                </code>\n"
 "            </div>\n"
 "        "
@@ -128,7 +115,7 @@ msgstr "<div>\n"
 "                </ul>\n"
 "                <h1>Message d'erreur</h1>\n"
 "                <code>\n"
-"                    ${ctx[\"error_message\"]}\n"
+"                    ${(ctx[\"error_message\"])|safe}\n"
 "                </code>\n"
 "            </div>\n"
 "        "
@@ -140,6 +127,7 @@ msgstr "Actif"
 
 #. module: account_invoice_invoice2data
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import__amount_untaxed_difference
+#: selection:wizard.invoice2data.import,state:0
 msgid "Amount Untaxed Difference"
 msgstr "Différence de Total HT"
 
@@ -147,6 +135,13 @@ msgstr "Différence de Total HT"
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import__invoice_amount
 msgid "Amount Vat Incl"
 msgstr "Montant TTC"
+
+#. module: account_invoice_invoice2data
+#: model_terms:ir.ui.view,arch_db:account_invoice_invoice2data.view_wizard_invoice2data_import_form
+msgid "An email has been sent to the IT Team to try to fix the problem.<br/>\n"
+"                        At this time, you will need to manually verify the supplier invoice."
+msgstr "Un email a été envoyé au service informatique avec la facture en pièce jointe, pour tenter de corriger le problème.<br/>\n"
+"En attendant, veuillez vérifier manuellement la facture fournisseur."
 
 #. module: account_invoice_invoice2data
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import_line__apply_change
@@ -192,13 +187,13 @@ msgid "Changes Type"
 msgstr "Type de changement"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:336
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:334
 #, python-format
 msgid "Contribution to Additional Energy Costs (20,0%)"
 msgstr "Contribution aux surcoûts énergétiques (20,0%)"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:331
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:329
 #, python-format
 msgid "Contribution to Additional Energy Costs (5,5%)"
 msgstr "Contribution aux surcoûts énergétiques (5,5%)"
@@ -259,13 +254,13 @@ msgid "Disabled"
 msgstr "Désactivé"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:197
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:195
 #, python-format
 msgid "Discount"
 msgstr "Remise"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:212
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:210
 #, python-format
 msgid "Discount n°2"
 msgstr "Remise n°2"
@@ -304,7 +299,7 @@ msgid "Filename"
 msgstr "Nom du fichier"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:346
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:344
 #, python-format
 msgid "Fuel Surcharge (20,0%)"
 msgstr "Supplément pour le carburant (TVA 20,0%)"
@@ -454,6 +449,11 @@ msgid "Invoice2data: Import Errored. (${object.invoice_id.company_id.code} - ${o
 msgstr "Invoice2data: Import en erreur (${object.invoice_id.company_id.code} - ${object.partner_id.name})"
 
 #. module: account_invoice_invoice2data
+#: model:mail.template,subject:account_invoice_invoice2data.mail_template_amount_untaxed_difference
+msgid "Invoice2data: Total Amount Untaxed Difference. (${object.invoice_id.company_id.code} - ${object.partner_id.name})"
+msgstr "Invoice2data: Différence dans le total HT. (${object.invoice_id.company_id.code} - ${object.partner_id.name})"
+
+#. module: account_invoice_invoice2data
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_account_invoice2data_template__invoice_qty
 msgid "Invoices Quantity"
 msgstr "Nombre de factures"
@@ -517,7 +517,7 @@ msgid "Line number in the pdf invoice."
 msgstr "Numéro de la ligne dans la facture PDF."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:317
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:315
 #, python-format
 msgid "Many products found for the supplier %s and the code '%s'. \n"
 " - %s"
@@ -550,7 +550,7 @@ msgid "Name and version should be unique for invoice2data templates."
 msgstr "Le nom et la version devraient être unique pour les modèles Invoice2data"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:113
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:111
 #, python-format
 msgid "New Line Creation in Odoo"
 msgstr "Création d'une ligne dans Odoo"
@@ -566,7 +566,7 @@ msgid "No Changes"
 msgstr "Aucun changement"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:60
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:74
 #, python-format
 msgid "No template was found for invoice analysis."
 msgstr "Aucun template trouvé pour l'analyse de facture."
@@ -602,7 +602,7 @@ msgid "Odoo Invoice Lines to be Updated"
 msgstr "Lignes de facture Odoo qui seront mises à jour"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:555
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:553
 #, python-format
 msgid "PDF Analysis"
 msgstr "Analyse PDF"
@@ -650,8 +650,8 @@ msgstr "Remise n°2 PDF"
 #. module: account_invoice_invoice2data
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import__pdf_has_bad_line_value
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import_line__pdf_has_bad_line_value
-msgid "Pdf Has Bad Price Subtotal"
-msgstr "Sous-total incorrect PDF"
+msgid "Pdf Has Bad Line Value"
+msgstr "Valeur de ligne incorrecte PDF"
 
 #. module: account_invoice_invoice2data
 #: model:ir.model.fields,field_description:account_invoice_invoice2data.field_wizard_invoice2data_import__pdf_has_discount
@@ -755,7 +755,7 @@ msgid "Products Mapping"
 msgstr "Liaison d'articles"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:168
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:166
 #, python-format
 msgid "Quantity"
 msgstr "Quantité"
@@ -772,7 +772,7 @@ msgid "Raisin sultanine n°9"
 msgstr ""
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:341
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:339
 #, python-format
 msgid "Shipping Cost (20,0%)"
 msgstr "Frais de transport (TVA 20,0%)"
@@ -831,19 +831,19 @@ msgid "Taxe Interfel TPF"
 msgstr ""
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:361
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:359
 #, python-format
 msgid "Taxe Interfel TPF (20,0%)"
 msgstr "Taxe Interfel TPF (TVA 20,0%)"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:356
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:354
 #, python-format
 msgid "Taxe Interfel TPF (5.5% - FR)"
 msgstr "Taxe Interfel TPF (TVA 5,5% - France)"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:351
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:349
 #, python-format
 msgid "Taxe Interfel TPF (5.5% - NO FR)"
 msgstr "Taxe Interfel TPF (TVA 5,5% - Hors France)"
@@ -866,7 +866,7 @@ msgid "The PDF file %s has been attached to the current invoice."
 msgstr "Le fichier PDF %s a été reliée à la facture en cours."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:119
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:133
 #, python-format
 msgid "The Vat Number %s has been set to the supplier %s."
 msgstr "Le Numéro de TVA Intracom %s a été appliqué au fournisseur %s."
@@ -958,13 +958,13 @@ msgid "Total Vat Excl"
 msgstr "Total HT"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:366
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:364
 #, python-format
 msgid "Trade Discount on products with 05.5% VAT"
 msgstr "Remise commerciale sur article à TVA 5,5%"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:371
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:369
 #, python-format
 msgid "Trade Discount on products with 20.0% VAT"
 msgstr "Remise commerciale sur article à TVA 20,0%"
@@ -976,19 +976,19 @@ msgid "Tranquille Achille - 75cl"
 msgstr ""
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:388
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:386
 #, python-format
 msgid "Unable to map the vat code '%s'"
 msgstr "Impossible de relier le code TVA '%s'"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:306
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:304
 #, python-format
 msgid "Unable to search product without product code neither product name."
 msgstr "Impossible de rechercher un article sans le code article ni le nom de l'article."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:475
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:473
 #, python-format
 msgid "Unimplemented feature : Product %s is still related many times with the supplier %s.\n"
 " Please update manually the information on the product form view."
@@ -996,13 +996,13 @@ msgstr "Fonctionnalité non implémentée : L'article %s est déjà relié plusi
 " Veuillez mettre à jour manuellement les informations en allant sur la fiche article."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:66
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_state_import.py:80
 #, python-format
 msgid "Unimplemented file type : '%s'"
 msgstr "Type de fichier non implémenté : '%s'"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:182
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:180
 #, python-format
 msgid "Unit Price"
 msgstr "Prix Unitaire"
@@ -1027,7 +1027,7 @@ msgid "Untaxed Amount"
 msgstr "Montant HT"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:223
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:221
 #, python-format
 msgid "UoM"
 msgstr "UdM"
@@ -1089,13 +1089,13 @@ msgid "You can only run this wizard on a supplier invoice or a supplier refund."
 msgstr "Vous ne pouvez exécuter cet assistant que sur une facture fournisseur ou un avoir fournisseur."
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:516
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:514
 #, python-format
 msgid "[PDF analysis] %s"
 msgstr "[Analyse PDF] %s"
 
 #. module: account_invoice_invoice2data
-#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:554
+#: code:addons/account_invoice_invoice2data/wizards/wizard_invoice2data_import_line.py:552
 #, python-format
 msgid "[PDF analysis] Line Creation"
 msgstr "[Analyse PDF] Création de la ligne"

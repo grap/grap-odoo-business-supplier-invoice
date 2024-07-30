@@ -27,14 +27,28 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
         self.ensure_one()
         try:
             result = self._extract_json_from_pdf()
+
         except ValueError as e:
+            # Template matched, but invoice2data error
             self._send_mail_import_errored(e)
             return self._get_action_from_state("import_errored")
+
         if not result:
+            # No match
             return self._get_action_from_state("import_failed")
+
         self._initialize_wizard_invoice(result)
         self._initialize_wizard_lines(result)
-        self._check_import_correct(result)
+
+        if (
+            self.fuzzy_message_amount_untaxed_difference
+            and not result.get("fuzzy_total_amount_untaxed")
+            and self.amount_untaxed_difference >= self._MAX_AMOUNT_UNTAXED_DIFFERENCE
+        ):
+            # Too big difference
+            self._send_mail_amount_untaxed_difference()
+            return self._get_action_from_state("import_amount_untaxed_difference")
+
         self._update_supplier()
 
         if self.pdf_has_bad_line_value:
@@ -122,22 +136,6 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
             )
             self.partner_id.vat = self.pdf_vat
 
-    def _check_import_correct(self, result):
-        self.ensure_one()
-        if (
-            self.fuzzy_message_amount_untaxed_difference
-            and not result.get("fuzzy_total_amount_untaxed")
-            and self.amount_untaxed_difference >= self._MAX_AMOUNT_UNTAXED_DIFFERENCE
-        ):
-            raise UserError(
-                _(
-                    "%s\n\n"
-                    "Please send the pdf to the IT department for correction.\n\n"
-                    "At this time, you will need to manually verify the supplier invoice."
-                )
-                % (self.fuzzy_message_amount_untaxed_difference)
-            )
-
     def _send_mail_import_errored(self, error):
         self.ensure_one()
         self._send_mail("import_errored", str(error))
@@ -156,8 +154,14 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
         ]
         self._send_mail("bad_line_value", "<br/>".join(error_list))
 
-    def _send_mail(self, message_type, error_message=""):
+    def _send_mail_amount_untaxed_difference(self):
+        self.ensure_one()
+        self._send_mail(
+            "amount_untaxed_difference",
+            self.fuzzy_message_amount_untaxed_difference.replace("\n", "<br/>"),
+        )
 
+    def _send_mail(self, message_type, error_message=""):
         self.ensure_one()
 
         it_team_email = (

@@ -80,10 +80,17 @@
                     <field name="invoice_difference_line_qty" invisible="1"/>
                 </group>
 
-                <group name="import_failed" col="2" states="import_errored">
+                <group name="import_errored" col="2" states="import_errored">
                     <div class="alert alert-warning" role="alert" colspan="2">
                         The analysis of the PDF finished with an error.<br/>
                         An email has been sent to the IT Team with the PDF in attachment, to try to fix the problem.
+                    </div>
+                </group>
+
+                <group name="import_amount_untaxed_difference" col="2" states="import_amount_untaxed_difference">
+                    <div class="alert alert-warning" role="alert" colspan="2">
+                        An email has been sent to the IT Team to try to fix the problem.<br />
+                        At this time, you will need to manually verify the supplier invoice.
                     </div>
                 </group>
 

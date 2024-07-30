@@ -22,7 +22,7 @@
                 </ul>
                 <h1>Error Message</h1>
                 <code>
-                    ${ctx["error_message"]}
+                    ${(ctx["error_message"])|safe}
                 </code>
             </div>
         </field>
@@ -51,7 +51,36 @@
                 </ul>
                 <h1>Error Message</h1>
                 <code>
-                    ${ctx["error_message"]}
+                    ${(ctx["error_message"])|safe}
+                </code>
+            </div>
+        </field>
+        <field name="lang">${object.invoice_id.user_id.lang}</field>
+        <field name="user_signature" eval="False"/>
+        <field name="auto_delete" eval="False"/>
+    </record>
+
+    <record id="mail_template_amount_untaxed_difference" model="mail.template">
+        <field name="name">Invoice2data: Total Amount Untaxed Difference</field>
+        <field name="model_id" ref="account_invoice_invoice2data.model_wizard_invoice2data_import"/>
+        <field name="subject">Invoice2data: Total Amount Untaxed Difference. (${object.invoice_id.company_id.code} - ${object.partner_id.name})</field>
+        <field name="email_to">${ctx["it_team_email"]}</field>
+        <field name="body_html" type="html">
+            <div>
+                Dear IT Team,
+                <br/><br/>
+                Here is in attachment a supplier invoice whose import ended in error
+                <br/>
+                <h1>Invoice Detail</h1>
+                <ul>
+                    <li>Company : <strong>${object.invoice_id.company_id.code} - ${object.invoice_id.company_id.name}</strong></li>
+                    <li>Supplier : <strong>${object.invoice_id.partner_id.name} (VAT: ${object.invoice_id.partner_id.sanitized_vat})</strong></li>
+                    <li>Origin : <strong>${object.invoice_id.origin}</strong></li>
+                    <li>Total : <strong>${round(object.invoice_id.amount_total_signed, 2)} €</strong></li>
+                </ul>
+                <h1>Error Message</h1>
+                <code>
+                    ${(ctx["error_message"])|safe}
                 </code>
             </div>
         </field>
