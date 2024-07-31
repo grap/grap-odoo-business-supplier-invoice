@@ -471,7 +471,7 @@ msgid "It seems that some lines have been incorrectly analyzed. (cf. lines with 
 "                        Note: An e-mail has been sent to the IT Team to try to fix the problem."
 msgstr "Il semble que certaines lignes ont été incorrectement analysées. (cf lignes sur fond rouge).\n"
 "Veuillez décocher la case 'Appliquer les changements' et, si nécessaire,\n"
-"réaliser les changemetn manuellement sur la facture, une fois que vous aurez terminé ce processus d'import.\n"
+"réaliser les changements manuellement sur la facture, une fois que vous aurez terminé ce processus d'import.\n"
 " Note: Un e-mail a été envoyé à l'équipe informatique, avec le PDF en pièce jointe, pour tenter de corriger le problème."
 
 #. module: account_invoice_invoice2data
