@@ -309,7 +309,7 @@ class WizardInvoice2dataImport(models.TransientModel):
     @api.depends("line_ids.pdf_has_bad_line_value")
     def _compute_pdf_has_bad_line_value(self):
         for wizard in self:
-            self.pdf_has_bad_line_value = any(
+            wizard.pdf_has_bad_line_value = any(
                 wizard.mapped("line_ids.pdf_has_bad_line_value")
             )
 

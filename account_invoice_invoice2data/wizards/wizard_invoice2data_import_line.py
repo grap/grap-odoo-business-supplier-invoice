@@ -141,8 +141,10 @@ class WizardInvoice2dataImportLine(models.TransientModel):
                     (
                         line.pdf_quantity
                         * line.pdf_price_unit
-                        * (1 - line.pdf_discount)
-                        * (1 - line.pdf_discount2)
+                        * (100 - line.pdf_discount)
+                        / 100
+                        * (100 - line.pdf_discount2)
+                        / 100
                     )
                     - line.pdf_price_subtotal
                 )
