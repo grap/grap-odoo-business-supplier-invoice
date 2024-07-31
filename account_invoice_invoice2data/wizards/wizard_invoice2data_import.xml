@@ -164,7 +164,7 @@
                         <page string="Invoice Lines Differences" states="line_differences">
                             <group string="Odoo Invoice Lines to be Updated" attrs="{'invisible': [('invoice_difference_line_qty', '=', 0)]}">
                                 <field name="invoice_difference_line_ids" nolabel="1">
-                                    <tree editable="bottom" create="false" delete="false">
+                                    <tree editable="bottom" create="false" delete="false" decoration-muted="apply_change == False">
                                         <field name="sequence"/>
                                         <field name="pdf_product_code"
                                             attrs="{'column_invisible': [('parent.pdf_has_product_code', '=', False)]}"
