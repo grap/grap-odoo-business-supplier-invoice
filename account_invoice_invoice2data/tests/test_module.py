@@ -31,3 +31,8 @@ class TestModule(TestAbstract):
         )
         self.pdf_folder_path = Path(os.path.realpath(__file__)).parent / "invoices"
         self.env["account.invoice2data.template"].init()
+
+    def _get_attachments(self, invoice):
+        return self.env["ir.attachment"].search(
+            [("res_model", "=", "account.invoice"), ("res_id", "=", invoice.id)]
+        )

@@ -36,7 +36,12 @@ class WizardInvoice2dataImport(models.TransientModel):
     state = fields.Selection(
         selection=[
             ("import", "Import"),
+            # Import failed. something is wrong
+            ("import_errored", "Import Errored"),
+            # No import available
             ("import_failed", "Import Failed"),
+            # Too big amount untaxed difference
+            ("import_amount_untaxed_difference", "Amount Untaxed Difference"),
             ("product_mapping", "Products Mapping"),
             ("line_differences", "Invoice Lines Differences"),
         ],
@@ -151,6 +156,8 @@ class WizardInvoice2dataImport(models.TransientModel):
     pdf_has_discount = fields.Boolean(compute="_compute_pdf_has_discount")
 
     pdf_has_discount2 = fields.Boolean(compute="_compute_pdf_has_discount2")
+
+    pdf_has_bad_line_value = fields.Boolean(compute="_compute_pdf_has_bad_line_value")
 
     pdf_has_vat_mapping = fields.Boolean(readonly=True)
 
@@ -298,6 +305,13 @@ class WizardInvoice2dataImport(models.TransientModel):
     def _compute_pdf_has_discount2(self):
         for wizard in self:
             self.pdf_has_discount2 = any(wizard.mapped("line_ids.pdf_discount2"))
+
+    @api.depends("line_ids.pdf_has_bad_line_value")
+    def _compute_pdf_has_bad_line_value(self):
+        for wizard in self:
+            wizard.pdf_has_bad_line_value = any(
+                wizard.mapped("line_ids.pdf_has_bad_line_value")
+            )
 
     @api.depends("invoice_id.invoice_line_ids.discount")
     def _compute_has_discount(self):

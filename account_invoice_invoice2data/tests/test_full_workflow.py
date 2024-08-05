@@ -53,11 +53,6 @@ class TestFullWorkflow(TestModule):
             [("vat", "=", "FR72352867493")]
         )[0]
 
-    def _get_attachments(self, invoice):
-        return self.env["ir.attachment"].search(
-            [("res_model", "=", "account.invoice"), ("res_id", "=", invoice.id)]
-        )
-
     def _get_supplierinfos(self, product):
         return self.env["product.supplierinfo"].search(
             [
@@ -235,9 +230,9 @@ class TestFullWorkflow(TestModule):
         # Check that attachment has not been added again
         self.assertEqual(len(self._get_attachments(self.invoice_relais_vert)), 1)
 
-        # ############################################
-        # Part 5 : rerun the wizard with incorrect pdf
-        # ############################################
+        # ##############################################################
+        # Part 5 : rerun the wizard with pdf related to another supplier
+        # ##############################################################
         wizard = self.Wizard.create(
             {
                 "invoice_file": self.bad_base64_data,
@@ -249,9 +244,9 @@ class TestFullWorkflow(TestModule):
 
         self.assertEqual(wizard.supplier_name_different, True)
 
-        # ################################################
-        # Part 6 : rerun the wizard with confirmed invoice
-        # ################################################
+        # #################################################
+        # Part 10 : rerun the wizard with confirmed invoice
+        # #################################################
         self.invoice_relais_vert.action_invoice_open()
         wizard = self.Wizard.create(
             {

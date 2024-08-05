@@ -59,6 +59,10 @@ class WizardInvoice2dataImportLine(models.TransientModel):
 
     data = fields.Text(readonly=True)
 
+    pdf_has_bad_line_value = fields.Boolean(compute="_compute_pdf_has_bad_line_value")
+
+    apply_change = fields.Boolean(default=True)
+
     changes_type = fields.Selection(
         selection=[
             ("no", "No Changes"),
@@ -122,6 +126,30 @@ class WizardInvoice2dataImportLine(models.TransientModel):
                     line.changes_description = "\n".join(
                         [x["description"] for x in differences]
                     )
+
+    @api.depends(
+        "pdf_quantity",
+        "pdf_price_unit",
+        "pdf_discount",
+        "pdf_discount2",
+        "pdf_price_subtotal",
+    )
+    def _compute_pdf_has_bad_line_value(self):
+        for line in self:
+            line.pdf_has_bad_line_value = (
+                abs(
+                    (
+                        line.pdf_quantity
+                        * line.pdf_price_unit
+                        * (100 - line.pdf_discount)
+                        / 100
+                        * (100 - line.pdf_discount2)
+                        / 100
+                    )
+                    - line.pdf_price_subtotal
+                )
+                > 0.02
+            )
 
     def _analyse_differences(self):
         self.ensure_one()
@@ -474,7 +502,7 @@ class WizardInvoice2dataImportLine(models.TransientModel):
 
     def _prepare_invoice_lines_vals(self):
         lines_vals = []
-        for line in self:
+        for line in self.filtered(lambda x: x.apply_change):
             if line.invoice_line_id:
                 vals = {}
                 # Update an existing invoice line

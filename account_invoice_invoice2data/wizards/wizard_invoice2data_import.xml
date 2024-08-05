@@ -28,6 +28,13 @@
                         <field name="fuzzy_message_amount_untaxed_difference"/>
                     </div>
                     <div class="alert alert-warning" role="alert"
+                        attrs="{'invisible': [('pdf_has_bad_line_value', '=', False)]}">
+                        It seems that some lines have been incorrectly analyzed. (cf. lines with red background).
+                        Please uncheck the “Apply changes” box and, if necessary,
+                        make a manual change to the invoice once you've completed the import process.
+                        Note: An e-mail has been sent to the IT Team to try to fix the problem.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
                         attrs="{'invisible': [('message_vat_difference', '=', False)]}">
                         <field name="message_vat_difference"/>
                     </div>
@@ -50,6 +57,7 @@
                     <field name="pdf_has_product_code" invisible="1"/>
                     <field name="pdf_has_discount" invisible="1"/>
                     <field name="pdf_has_discount2" invisible="1"/>
+                    <field name="pdf_has_bad_line_value" invisible="1"/>
                     <field name="pdf_has_vat_mapping" invisible="1"/>
                     <field name="invoice2data_template_id" invisible="1"/>
                     <field name="pdf_version" invisible="1"/>
@@ -71,6 +79,21 @@
                         options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     <field name="invoice_difference_line_qty" invisible="1"/>
                 </group>
+
+                <group name="import_errored" col="2" states="import_errored">
+                    <div class="alert alert-warning" role="alert" colspan="2">
+                        The analysis of the PDF finished with an error.<br/>
+                        An email has been sent to the IT Team with the PDF in attachment, to try to fix the problem.
+                    </div>
+                </group>
+
+                <group name="import_amount_untaxed_difference" col="2" states="import_amount_untaxed_difference">
+                    <div class="alert alert-warning" role="alert" colspan="2">
+                        An email has been sent to the IT Team to try to fix the problem.<br />
+                        At this time, you will need to manually verify the supplier invoice.
+                    </div>
+                </group>
+
                 <group name="import_failed" col="2" states="import_failed">
                     <div class="alert alert-warning" role="alert" colspan="2">
                         The analysis of the PDF failed.<br/>
@@ -141,7 +164,7 @@
                         <page string="Invoice Lines Differences" states="line_differences">
                             <group string="Odoo Invoice Lines to be Updated" attrs="{'invisible': [('invoice_difference_line_qty', '=', 0)]}">
                                 <field name="invoice_difference_line_ids" nolabel="1">
-                                    <tree editable="bottom" create="false" delete="false">
+                                    <tree editable="bottom" create="false" delete="false" decoration-muted="apply_change == False">
                                         <field name="sequence"/>
                                         <field name="pdf_product_code"
                                             attrs="{'column_invisible': [('parent.pdf_has_product_code', '=', False)]}"
@@ -160,8 +183,16 @@
                                         <field name="pdf_discount2"
                                             attrs="{'column_invisible': [('parent.pdf_has_discount2', '=', False)]}"
                                         />
+                                        <field name="pdf_has_bad_line_value" invisible="1" />
+                                        <field name="pdf_price_subtotal"
+                                            attrs="{'column_invisible': [('parent.pdf_has_bad_line_value', '=', False)]}"
+                                            options="{'bg_color': '#F88:pdf_has_bad_line_value == True;'}"
+                                        />
+                                        <field name="apply_change"
+                                            widget="boolean_toggle"
+                                            attrs="{'column_invisible': [('parent.pdf_has_bad_line_value', '=', False)]}"/>
                                         <field name="current_uom_id"/>
-                                        <field name="new_uom_id" attrs="{'readonly': [('invoice_line_id', '=', False)]}" force_save="1"  options="{'bg_color': '#D2D2FF: True'}"/>
+                                        <field name="new_uom_id" attrs="{'readonly': [('invoice_line_id', '=', False)]}" force_save="1" options="{'bg_color': '#D2D2FF: True'}"/>
                                         <field name="invoice_line_id"/>
                                         <field name="changes_type" />
                                         <field name="changes_description"
@@ -212,6 +243,11 @@
                                     />
                                     <field name="pdf_discount2"
                                             attrs="{'column_invisible': [('parent.pdf_has_discount2', '=', False)],}"
+                                    />
+                                    <field name="pdf_has_bad_line_value" invisible="1" />
+                                    <field name="pdf_price_subtotal"
+                                        attrs="{'column_invisible': [('parent.pdf_has_bad_line_value', '=', False)]}"
+                                        options="{'bg_color': '#F88:pdf_has_bad_line_value == True;'}"
                                     />
                                     <field name="current_uom_id"/>
                                     <field name="new_uom_id" readonly="1"/>

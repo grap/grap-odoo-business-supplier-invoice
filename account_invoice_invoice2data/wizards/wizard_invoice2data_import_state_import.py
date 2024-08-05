@@ -25,13 +25,34 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
 
     def import_invoice(self):
         self.ensure_one()
-        result = self._extract_json_from_pdf()
+        try:
+            result = self._extract_json_from_pdf()
+
+        except ValueError as e:
+            # Template matched, but invoice2data error
+            self._send_mail_import_errored(e)
+            return self._get_action_from_state("import_errored")
+
         if not result:
+            # No match
             return self._get_action_from_state("import_failed")
+
         self._initialize_wizard_invoice(result)
         self._initialize_wizard_lines(result)
-        self._check_import_correct(result)
+
+        if (
+            self.fuzzy_message_amount_untaxed_difference
+            and not result.get("fuzzy_total_amount_untaxed")
+            and self.amount_untaxed_difference >= self._MAX_AMOUNT_UNTAXED_DIFFERENCE
+        ):
+            # Too big difference
+            self._send_mail_amount_untaxed_difference()
+            return self._get_action_from_state("import_amount_untaxed_difference")
+
         self._update_supplier()
+
+        if self.pdf_has_bad_line_value:
+            self._send_mail_bad_line_value()
 
         # We try to save a step, if all the products are mapped
         return self.map_products()
@@ -115,18 +136,63 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
             )
             self.partner_id.vat = self.pdf_vat
 
-    def _check_import_correct(self, result):
+    def _send_mail_import_errored(self, error):
         self.ensure_one()
-        if (
-            self.fuzzy_message_amount_untaxed_difference
-            and not result.get("fuzzy_total_amount_untaxed")
-            and self.amount_untaxed_difference >= self._MAX_AMOUNT_UNTAXED_DIFFERENCE
-        ):
-            raise UserError(
-                _(
-                    "%s\n\n"
-                    "Please send the pdf to the IT department for correction.\n\n"
-                    "At this time, you will need to manually verify the supplier invoice."
-                )
-                % (self.fuzzy_message_amount_untaxed_difference)
+        self._send_mail("import_errored", str(error))
+
+    def _send_mail_bad_line_value(self):
+        self.ensure_one()
+        bad_lines = self.line_ids.filtered(lambda x: x.pdf_has_bad_line_value)
+        error_list = [
+            f"- {x.pdf_product_code} - {x.pdf_product_name}"
+            f" (pdf_quantity: {x.pdf_quantity} ;"
+            f" pdf_price_unit: {x.pdf_price_unit} ;"
+            f" pdf_discount {x.pdf_discount} ;"
+            f" pdf_discount2 {x.pdf_discount2} ;"
+            f" pdf_price_subtotal {x.pdf_price_subtotal})"
+            for x in bad_lines
+        ]
+        self._send_mail("bad_line_value", "<br/>".join(error_list))
+
+    def _send_mail_amount_untaxed_difference(self):
+        self.ensure_one()
+        self._send_mail(
+            "amount_untaxed_difference",
+            self.fuzzy_message_amount_untaxed_difference.replace("\n", "<br/>"),
+        )
+
+    def _send_mail(self, message_type, error_message=""):
+        self.ensure_one()
+
+        it_team_email = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("account_invoice_invoice2data.it_team_email")
+        )
+
+        template = self.env.ref(
+            f"account_invoice_invoice2data.mail_template_{message_type}"
+        )
+
+        attachment = (
+            self.env["ir.attachment"]
+            .sudo()
+            .create(
+                {
+                    "name": "Temporary Import File",
+                    "datas_fname": "import_wizard_{}.pdf".format(self.id),
+                    "type": "binary",
+                    "mimetype": "application/x-pdf",
+                    "db_datas": self.invoice_file,
+                    "res_model": "wizard.invoice2data.import",
+                    "res_id": self.id,
+                }
             )
+        )
+
+        template.attachment_ids = [(4, attachment.id)]
+        template.with_context(
+            it_team_email=it_team_email,
+            error_message=error_message,
+        ).send_mail(self.id, force_send=True)
+        template.attachment_ids = [(5, 0, 0)]

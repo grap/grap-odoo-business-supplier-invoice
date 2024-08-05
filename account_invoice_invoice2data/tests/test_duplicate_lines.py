@@ -30,7 +30,6 @@ class TestDuplicatesLines(TestModule):
             {
                 "invoice_file": self.base64_data,
                 "invoice_filename": self.invoice_name,
-                # "partner_id": self.partner_relais_vert.id,
                 "invoice_id": self.invoice_teddy_beer.id,
             }
         )
