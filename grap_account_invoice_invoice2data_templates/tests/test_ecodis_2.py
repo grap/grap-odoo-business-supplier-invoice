@@ -70,3 +70,30 @@ class TestEcodis(TestModule):
                 },
             ],
         )
+
+    def test_ecodis_2_03(self):
+        self._test_supplier_template(
+            "ecodis__2024-07-22__CRB__382976.pdf",
+            line_qty=13,
+            expected_values={
+                "issuer": "Ecodis",
+                "version": 2,
+                "date": datetime(day=19, month=7, year=2024),
+                "date_due": datetime(day=19, month=8, year=2024),
+                "invoice_number": "382976",
+                "amount_untaxed": 396.60,
+                "amount": 468.29,
+            },
+            expected_lines=[
+                {
+                    "product_code": "AE445",
+                    "product_name": "Tube compte-gouttes 15 ml",
+                    "vat_code": "20.00",
+                    "quantity": 1,
+                    "quantity2": 5,
+                    "price_unit": 1.95,
+                    "discount": 2.5,
+                    "price_subtotal": 9.51,
+                },
+            ],
+        )
