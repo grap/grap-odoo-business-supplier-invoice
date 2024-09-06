@@ -47,6 +47,7 @@ class TestErrorAmountUntaxedDifference(TestModule):
                 "invoice_file": self.base64_data,
                 "invoice_filename": self.invoice_name,
                 "invoice_id": self.invoice_teddy_beer.id,
+                "partner_id": self.invoice_teddy_beer.partner_id.id,
             }
         )
         wizard.import_invoice()

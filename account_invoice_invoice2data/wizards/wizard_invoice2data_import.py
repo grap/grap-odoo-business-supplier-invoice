@@ -61,8 +61,8 @@ class WizardInvoice2dataImport(models.TransientModel):
     partner_id = fields.Many2one(
         string="Supplier",
         comodel_name="res.partner",
-        related="invoice_id.partner_id",
         readonly=True,
+        default=lambda self: self._default_partner_id(),
     )
 
     partner_sanitized_vat = fields.Char(
@@ -177,6 +177,13 @@ class WizardInvoice2dataImport(models.TransientModel):
     message_vat_difference = fields.Html(
         compute="_compute_message_vat_difference",
     )
+
+    def _default_partner_id(self):
+        if self.env.context.get("active_model") == "account.invoice":
+            invoice = self.env["account.invoice"].browse(
+                self.env.context.get("active_id")
+            )
+            return invoice.partner_id
 
     @api.depends("invoice_id.state", "invoice_id.type")
     def _compute_import_state(self):

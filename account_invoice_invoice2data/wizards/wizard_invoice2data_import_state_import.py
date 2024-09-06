@@ -37,9 +37,25 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
             # No match
             return self._get_action_from_state("import_failed")
 
+        if not self.partner_id:
+            # We load a PDF from a blank invoice with no partner defined
+            # In that case, we try to guess the partner, based on the
+            # VAT number
+            partners = self.env["res.partner"].search(
+                [("sanitized_vat", "=", result.get("vat"))]
+            )
+            if len(partners) == 1:
+                self.partner_id = partners[0]
+            else:
+                raise UserError(
+                    _("Unable to find the partner with VAT %s in your database.")
+                    % (result.get("vat"))
+                )
+
         try:
             self._initialize_wizard_invoice(result)
             self._initialize_wizard_lines(result)
+
         except KeyError as e:
             # Template matched, but data are not correct.
             # that can occures for exemple, if there are no lines found

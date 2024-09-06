@@ -73,6 +73,9 @@ class WizardInvoice2dataImportStateApply(models.TransientModel):
             "invoice_line_ids": lines_vals,
         }
 
+        if self.partner_id and not self.invoice_id.partner_id:
+            invoice_vals.update({"partner_id": self.partner_id.id})
+
         if self.pdf_date_due:
             invoice_vals.update({"date_due": self.pdf_date_due})
 
