@@ -37,8 +37,14 @@ class WizardInvoice2dataImportStateImport(models.TransientModel):
             # No match
             return self._get_action_from_state("import_failed")
 
-        self._initialize_wizard_invoice(result)
-        self._initialize_wizard_lines(result)
+        try:
+            self._initialize_wizard_invoice(result)
+            self._initialize_wizard_lines(result)
+        except KeyError as e:
+            # Template matched, but data are not correct.
+            # that can occures for exemple, if there are no lines found
+            self._send_mail_import_errored(e)
+            return self._get_action_from_state("import_errored")
 
         if (
             self.fuzzy_message_amount_untaxed_difference
