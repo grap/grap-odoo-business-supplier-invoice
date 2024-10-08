@@ -6,12 +6,12 @@ keywords:
   # - 44206081000029
   - "FR91442060810"
   - "Montant HT +Tx TVA"
-  - "Date échéance"
+  - "Conditions de règlement"
 
 fields:
   version:
     parser: static
-    value: 2
+    value: 3
   vat:
     parser: static
     value: "FR91442060810"
@@ -33,7 +33,7 @@ fields:
   date_due:
     parser: regex
     type: date
-    regex: \d{2}\/\d{2}\/\d{2}.*(\d{2}\/\d{2}\/\d{4})
+    regex: Conditions de.*(\d{2}\/\d{2}\/\d{4})
   vat_code_055:
     parser: static
     value: "5.5"
@@ -45,7 +45,7 @@ fields:
     start: Réf.*TVA
     end: Code +Base
     # Note: Dans 'P.U net HT', il y a le prix brut. Tout va bien
-    line: ^ *(?P<product_code>\w+) *(?P<product_name>.*) +(?P<quantity>\d+) +((?P<discount>\d+(\.\d+)?)%)? +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+) +(?P<vat_code>\d+\.\d+)
+    line: ^ *(?P<product_code>\w+) *(?P<product_name>.*) +(?P<quantity>\d+) +(?P<price_unit>\d+\.\d+) +((?P<discount>\d+(\.\d+)?)%)? +(?P<price_subtotal>\d+\.\d+) +(?P<vat_code>\d+\.\d+)$
     types:
       quantity: float
       price_unit: float

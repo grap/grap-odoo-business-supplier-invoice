@@ -8,6 +8,9 @@ keywords:
   - "Montant HT +TVA"
 
 fields:
+  version:
+    parser: static
+    value: 1
   vat:
     parser: static
     value: "FR91442060810"
