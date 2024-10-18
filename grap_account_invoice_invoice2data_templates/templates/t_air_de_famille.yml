@@ -26,12 +26,12 @@ fields:
   date_due:
     parser: regex
     type: date
-    regex: (\d{2}\/\d{2}\/\d{4})\s+virement
+    regex: échéance.*\s.*\s?.*\s?.*(\d{2}\/\d{2}\/\d{4})
   lines:
     parser: lines
     start:  Code.*Montant HT
     end: Produits issus
-    line: ^(?P<product_code>[\w\d]+) +(?P<product_name>.{60}) +(?P<quantity>\d+(\.\d+)?) +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+)
+    line: ^(?P<product_code>[\w\d]+) +(?P<product_name>.{,50})( +RUPTURE.*)? +(?P<quantity>\d+\.\d+) +(?P<price_unit>\d+\.\d+) +(?P<price_subtotal>\d+\.\d+)
     types:
       quantity: float
       price_unit: float
