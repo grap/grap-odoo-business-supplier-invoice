@@ -31,3 +31,28 @@ class TestOdooFerement(TestModule):
                 }
             ],
         )
+
+    def test_odoo_fermente_02(self):
+        self._test_supplier_template(
+            "odoo_fermente__2024-10-24__BES__VT-24-9534.pdf",
+            line_qty=6,
+            expected_values={
+                "issuer": "Activités du réseau",
+                "date": datetime(day=24, month=10, year=2024),
+                "date_due": datetime(day=23, month=11, year=2024),
+                "invoice_number": "VT/24/9534",
+                "amount_untaxed": 240.42,
+                "amount": 253.64,
+            },
+            expected_lines=[
+                {
+                    "product_code": "LOG-000127",
+                    "product_name": "Kaki pomme BIO. Sicile",
+                    "vat_code": "5.5",
+                    "quantity": 2.00,
+                    "price_unit": 14.56,
+                    "discount": 0.0,
+                    "price_subtotal": 29.12,
+                }
+            ],
+        )
