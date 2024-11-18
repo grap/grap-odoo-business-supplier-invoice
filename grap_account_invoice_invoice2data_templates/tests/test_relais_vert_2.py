@@ -82,3 +82,28 @@ class TestRelaisVert(TestModule):
                 }
             ],
         )
+
+    def test_relais_vert_2_04(self):
+        self._test_supplier_template(
+            "relais-vert__2024-10-08__3PP__FC12061180.pdf",
+            line_qty=86,
+            expected_values={
+                "issuer": "Relais Vert",
+                "version": 2,
+                "date": datetime(day=8, month=10, year=2024),
+                "invoice_number": "FC12061180",
+                "amount_untaxed": 1645.37,
+                "amount": 1755.83,
+                "amount_extra_parafiscal_tax_interfel_200": 0.79,
+            },
+            expected_lines=[
+                {
+                    "product_code": "CHFLRORE",
+                    "product_name": "CHOU FLEUR ROMANESCO X 8 CONV CAT II",
+                    "vat_code": "1",
+                    "quantity": 1.0,
+                    "price_unit": 25.73,
+                    "price_subtotal": 25.73,
+                }
+            ],
+        )
