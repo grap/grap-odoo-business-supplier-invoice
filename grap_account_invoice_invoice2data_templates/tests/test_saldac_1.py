@@ -13,6 +13,7 @@ class TestSaldac(TestModule):
             line_qty=5,
             expected_values={
                 "issuer": "Saldac",
+                "version": 1,
                 "date": datetime(day=7, month=12, year=2022),
                 "date_due": datetime(day=6, month=1, year=2023),
                 "invoice_number": "FA22/4381",

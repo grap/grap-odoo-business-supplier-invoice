@@ -43,7 +43,9 @@ from . import test_salaisons_de_chartreuse
 from . import test_senfas
 from . import test_supersec
 from . import test_route_des_comptoirs
-from . import test_saldac, test_saldac_2
+from . import test_saldac_1
+from . import test_saldac_2
+from . import test_saldac_3
 from . import test_t_air_de_famille
 from . import test_thera_viva
 from . import test_union_des_fruitieres_bio_comtoises
