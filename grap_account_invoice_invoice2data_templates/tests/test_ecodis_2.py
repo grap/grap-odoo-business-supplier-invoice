@@ -97,3 +97,30 @@ class TestEcodis(TestModule):
                 },
             ],
         )
+
+    def test_ecodis_2_04(self):
+        self._test_supplier_template(
+            "ecodis__2024-10-10__CHE__387499.pdf",
+            line_qty=19,
+            expected_values={
+                "issuer": "Ecodis",
+                "version": 2,
+                "date": datetime(day=10, month=10, year=2024),
+                "date_due": datetime(day=10, month=11, year=2024),
+                "invoice_number": "387499",
+                "amount_untaxed": 558.29,
+                "amount": 663.79,
+            },
+            expected_lines=[
+                {
+                    "product_code": "AE638",
+                    "product_name": "Recharges vrac souple pour brosse à dents",
+                    "vat_code": "20.00",
+                    "quantity": 2,
+                    "quantity2": 20,
+                    "price_unit": 0.67,
+                    "discount": 2.5,
+                    "price_subtotal": 26.12,
+                },
+            ],
+        )
