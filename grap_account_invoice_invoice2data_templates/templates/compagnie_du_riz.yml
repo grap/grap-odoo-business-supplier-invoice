@@ -37,6 +37,10 @@ fields:
     parser: static
     type: boolean
     value: true
+  compute_price_subtotal:
+    parser: static
+    type: boolean
+    value: true
   lines:
     parser: lines
     start: ARTICLE +DESIGNATION
@@ -45,7 +49,6 @@ fields:
     types:
       quantity: float
       price_unit: float
-      discount: float
 
 options:
   currency: EUR
