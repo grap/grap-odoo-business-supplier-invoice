@@ -56,3 +56,28 @@ class TestCrocJBGSAS(TestModule):
                 }
             ],
         )
+
+    def test_croc_jbg_sas_03(self):
+        self._test_supplier_template(
+            "croc-jbg-sas__2024-12-19__HAL__FA7934.pdf",
+            line_qty=11,
+            expected_values={
+                "issuer": "Croc JBG SAS",
+                "date": datetime(day=19, month=12, year=2024),
+                "date_due": datetime(day=15, month=1, year=2025),
+                "invoice_number": "FA7934",
+                "amount_untaxed": 909.75,
+                "amount": 959.79,
+            },
+            expected_lines=[
+                {
+                    "product_code": "0937",
+                    "product_name": "Graines de Courge nature 10 Kg",
+                    "vat_code": "5.50",
+                    "quantity": 10.00,
+                    "price_unit": 13.20,
+                    "discount": 21.59,
+                    "price_subtotal": 103.50,
+                }
+            ],
+        )
