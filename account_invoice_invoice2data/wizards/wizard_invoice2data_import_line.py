@@ -399,6 +399,17 @@ class WizardInvoice2dataImportLine(models.TransientModel):
             quantity = line_data["quantity"]
             if line_data.get("quantity2"):
                 quantity *= line_data["quantity2"]
+            if not pdf_data.get("compute_price_subtotal"):
+                price_subtotal = line_data.get("price_subtotal", 0.0)
+            else:
+                price_subtotal = (
+                    quantity
+                    * line_data["price_unit"]
+                    * (100 - line_data.get("discount", 0.0))
+                    / 100
+                    * (100 - line_data.get("discount2", 0.0))
+                    / 100
+                )
             result.append(
                 {
                     "sequence": sequence,
@@ -410,7 +421,7 @@ class WizardInvoice2dataImportLine(models.TransientModel):
                     "pdf_vat_amount": self._get_vat_amount(wizard, pdf_data, line_data),
                     "pdf_quantity": quantity,
                     "pdf_price_unit": line_data["price_unit"],
-                    "pdf_price_subtotal": line_data.get("price_subtotal", 0.0),
+                    "pdf_price_subtotal": price_subtotal,
                     "pdf_discount": line_data.get("discount", 0.0),
                     "pdf_discount2": line_data.get("discount2", 0.0),
                     "data": str(line_data),
