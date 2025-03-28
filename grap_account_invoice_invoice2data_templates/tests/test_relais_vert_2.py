@@ -110,6 +110,31 @@ class TestRelaisVert(TestModule):
 
     def test_relais_vert_2_05(self):
         self._test_supplier_template(
+            "relais-vert__2025-03-11__ECS__FC12153601.pdf",
+            line_qty=45,
+            expected_values={
+                "issuer": "Relais Vert",
+                "version": 2,
+                "date": datetime(day=11, month=3, year=2025),
+                "invoice_number": "FC12153601",
+                "amount_untaxed": 751.01,
+                "amount": 800.10,
+                "amount_extra_parafiscal_tax_interfel_200": 0.0,
+            },
+            expected_lines=[
+                {
+                    "product_code": "45041",
+                    "product_name": "LOTION TONIQUE (200ML) JOAYO (*2)",
+                    "vat_code": "6",
+                    "quantity": 3.0,
+                    "price_unit": 2.74,
+                    "price_subtotal": 8.22,
+                }
+            ],
+        )
+
+    def test_relais_vert_2_06(self):
+        self._test_supplier_template(
             "relais-vert__2025-03-25__3PP__FC12162859.pdf",
             line_qty=59,
             expected_values={
