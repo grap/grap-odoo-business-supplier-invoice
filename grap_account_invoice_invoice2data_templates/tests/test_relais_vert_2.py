@@ -107,3 +107,28 @@ class TestRelaisVert(TestModule):
                 }
             ],
         )
+
+    def test_relais_vert_2_05(self):
+        self._test_supplier_template(
+            "relais-vert__2025-03-25__3PP__FC12162859.pdf",
+            line_qty=59,
+            expected_values={
+                "issuer": "Relais Vert",
+                "version": 2,
+                "date": datetime(day=25, month=3, year=2025),
+                "invoice_number": "FC12162859",
+                "amount_untaxed": 1187.89,
+                "amount": 1262.29,
+                "amount_extra_parafiscal_tax_interfel_200": 0.76,
+            },
+            expected_lines=[
+                {
+                    "product_code": "29900",
+                    "product_name": "PAPIER D'ARMENIE TRADITION PAV (12",
+                    "vat_code": "6",
+                    "quantity": 1.0,
+                    "price_unit": 22.39,
+                    "price_subtotal": 22.39,
+                }
+            ],
+        )
