@@ -105,3 +105,27 @@ class TestRelaisLocal(TestModule):
                 }
             ],
         )
+
+    def test_relais_local_05(self):
+        self._test_supplier_template(
+            "relais-local__2025-03-10__MLC__FC250331879.pdf",
+            line_qty=21,
+            expected_values={
+                "issuer": "Relais Local",
+                "date": datetime(day=10, month=3, year=2025),
+                "date_due": datetime(day=31, month=3, year=2025),
+                "invoice_number": "FC250331879",
+                "amount_untaxed": 430.17,
+                "amount": 453.83,
+            },
+            expected_lines=[
+                {
+                    "product_code": "106818",
+                    "product_name": "SAUCE BEARNAISE 90G",
+                    "vat_code": "3",
+                    "quantity": 12.0,
+                    "price_unit": 2.05,
+                    "price_subtotal": 24.60,
+                }
+            ],
+        )
